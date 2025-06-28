@@ -5,32 +5,31 @@ import java.util.ArrayList;
 
 public class Messager {
     private String tujuan;
-    
+
     public Messager(String tujuan) {
         this.tujuan = tujuan;
     }
-    
+
     public String getTujuan() {
         return this.tujuan;
     }
-    
+
     public ArrayList<Message> getList() {
         String DBDRIVER = "com.mysql.cj.jdbc.Driver";
         String DBCONNECTION = "jdbc:mysql://localhost:3306/wall";
         String DBUSER = "root";
         String DBPASS = "";
-        
+
         Connection conn = null;
         PreparedStatement st;
         ResultSet rs;
-        ArrayList<Message> hasil = new ArrayList<Message>();
+        ArrayList<Message> hasil = new ArrayList<>();
 
         try {
             Class.forName(DBDRIVER);
             conn = DriverManager.getConnection(DBCONNECTION, DBUSER, DBPASS);
 
-            // prepare select statement
-            String sql = "SELECT * from percakapan where tujuan=? order by id desc";
+            String sql = "SELECT * FROM percakapan WHERE tujuan = ? ORDER BY id DESC";
             st = conn.prepareStatement(sql);
             st.setString(1, this.tujuan);
             rs = st.executeQuery();
@@ -41,31 +40,29 @@ public class Messager {
                 msg.pesan = rs.getString("pesan");
                 hasil.add(msg);
             }
-            
-            conn.close();
 
+            conn.close();
             return hasil;
         } catch (Exception ex) {
+            ex.printStackTrace();
             return null;
         }
     }
-    
+
     public void addMessage(String pengirim, String pesan) {
         String DBDRIVER = "com.mysql.cj.jdbc.Driver";
         String DBCONNECTION = "jdbc:mysql://localhost:3306/wall";
         String DBUSER = "root";
         String DBPASS = "";
-        
+
         Connection conn = null;
         PreparedStatement st;
-        ArrayList<Message> hasil = new ArrayList<Message>();
 
         try {
             Class.forName(DBDRIVER);
             conn = DriverManager.getConnection(DBCONNECTION, DBUSER, DBPASS);
 
-            // prepare select statement
-            String sql = "INSERT INTO percakapan (tujuan,pengirim,pesan) values (?,?,?)";
+            String sql = "INSERT INTO percakapan (tujuan, pengirim, pesan) VALUES (?, ?, ?)";
             st = conn.prepareStatement(sql);
             st.setString(1, this.tujuan);
             st.setString(2, pengirim);
