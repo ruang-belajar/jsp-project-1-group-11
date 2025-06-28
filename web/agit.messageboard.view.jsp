@@ -152,7 +152,7 @@
 <body data-theme="light">
 
   <header>
-    <h1>💬 Agit Rahadian Board</h1>
+    <h1>💬 Agit Rahadian Message Board</h1>
     <button class="theme-toggle" id="toggleTheme" title="Toggle Dark/Light">🌙</button>
   </header>
 
